@@ -2,17 +2,6 @@
 # Make a Debian "all-in-one" btrfs root layout compatible with Timeshift.
 # Works in d-i/Calamares shells where /target is the future system root.
 
-# ensure we're not inside /target
-cd /
-
-# drop common submounts first
-for m in $(mount | awk '$3 ~ "^/target/(boot/efi|dev|proc|sys|run)" {print $3}' | sort -r); do
-  umount "$m" 2>/dev/null || true
-done
-
-# optional: evict leftover holders if fuser is available
-command -v fuser >/dev/null && fuser -km /target || true
-
 set -eu
 
 die() { echo "ERROR: $*" >&2; exit 1; }
@@ -30,7 +19,7 @@ echo "Detected root device: ${ROOT_SRC}"
 
 # --- unmount target so we can touch the btrfs top-level ---
 if mountpoint -q /target/boot/efi 2>/dev/null; then umount /target/boot/efi; fi
-umount -f /target
+umount /target
 
 # Mount the TOP-LEVEL (ID=5) so subvols are visible at /mnt
 mkdir -p /mnt
