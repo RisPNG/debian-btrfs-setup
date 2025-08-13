@@ -30,7 +30,7 @@ echo "Detected root device: ${ROOT_SRC}"
 
 # --- unmount target so we can touch the btrfs top-level ---
 if mountpoint -q /target/boot/efi 2>/dev/null; then umount /target/boot/efi; fi
-umount -r /target
+umount -f /target
 
 # Mount the TOP-LEVEL (ID=5) so subvols are visible at /mnt
 mkdir -p /mnt
