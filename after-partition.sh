@@ -2,6 +2,17 @@
 # Make a Debian "all-in-one" btrfs root layout compatible with Timeshift.
 # Works in d-i/Calamares shells where /target is the future system root.
 
+# 1) make sure the shell isn't inside /target
+cd /
+
+# 2) unmount the usual bind mounts first (ignore errors)
+for m in $(mount | awk '$3 ~ "^/target/(boot/efi|dev|proc|sys|run)" {print $3}' | sort -r); do
+  umount "$m" 2>/dev/null || true
+done
+
+# 3) if something still holds /target, kill it (only if fuser exists)
+command -v fuser >/dev/null && fuser -km /target || true
+
 set -eu
 
 die() { echo "ERROR: $*" >&2; exit 1; }
