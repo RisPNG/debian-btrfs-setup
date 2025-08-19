@@ -255,6 +255,11 @@ cd ~/Downloads
 wget -qO- "https://gitlab.com/-/snippets/3615945/raw/main/patch-notion-enhanced.linux.sh" | sudo bash
 ```
 
+**Vivaldi Setup**
+```bash
+echo "x-scheme-handler/vivaldi=vivaldi-stable.desktop" >> ~/.config/mimeapps.list
+```
+
 </details>
 
 ### Other Recommended GUI Applications
