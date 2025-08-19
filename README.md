@@ -221,9 +221,6 @@ sudo systemctl enable zerotier-one --now
 
 **MPV Media Player + uosc Plugin**
 ```bash
-sudo curl --output-dir /etc/apt/trusted.gpg.d -O https://apt.fruit.je/fruit.gpg
-echo "deb http://apt.fruit.je/debian bookworm mpv" | sudo tee /etc/apt/sources.list.d/fruit.list
-sudo apt update
 sudo apt install mpv -y
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/tomasklaen/uosc/HEAD/installers/unix.sh)"
 mkdir -p ~/.config/mpv && tee ~/.config/mpv/mpv.conf <<EOF
@@ -318,6 +315,11 @@ You might encounter a Python package conflict due to the live installer using an
 
 ```bash
 sudo dpkg -i --force-overwrite /var/cache/apt/archives/python3.13_3.13.5-5_amd64.deb
+```
+
+If Python cannot find any system installed dependency, do this:
+```bash
+echo "/usr/lib/python3/dist-packages" | sudo tee /usr/lib/python3.13/site-packages/debian_dist_packages.pth
 ```
 
 Then, rerun the update command above.
